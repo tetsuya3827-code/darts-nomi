@@ -1,0 +1,188 @@
+/* 工事現場のポスター × バラエティ番組。黒い帯と黄色い面、黒フチの極太文字。単一テーマで作る */
+:root {
+  --yellow: #F5C400;
+  --yellow-hi: #FFD740;
+  --ink: #111111;
+  --ink-soft: #3a352a;
+  --orange: #E86C00;
+  --paper: #FAFAF5;
+  --sky: #5BB8F0;
+  --sky-deep: #2D86C9;
+  --red: #E53935;
+  --font-display: "RocknRoll One", "Hiragino Maru Gothic ProN", "Noto Sans JP", sans-serif;
+  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --line: 3px solid var(--ink);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* 黒い帯のヘッダー */
+.bar { background: var(--ink); border-bottom: 6px solid var(--yellow); }
+.bar-inner {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  max-width: 1280px; margin: 0 auto;
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.logo {
+  margin: 0; font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(26px, 4vw, 38px); line-height: 1.1;
+  color: var(--yellow);
+  -webkit-text-stroke: 1.5px var(--yellow);
+  text-shadow: 3px 3px 0 var(--orange);
+  letter-spacing: 0.02em;
+}
+.logo span { color: #fff; -webkit-text-stroke: 1.5px #fff; }
+.area { margin: 0; color: var(--paper); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; opacity: 0.85; flex: 1; min-width: 0; }
+@media (max-width: 560px) { .area { order: 3; flex-basis: 100%; } .bar-inner { justify-content: space-between; } }
+.toggles { display: flex; gap: 8px; }
+.sound {
+  font: 700 13px var(--font-body); color: var(--ink); background: var(--yellow);
+  border: 2px solid var(--yellow); border-radius: 999px; padding: 4px 14px; cursor: pointer;
+}
+.sound[aria-pressed="false"] { background: transparent; color: var(--yellow); }
+
+/* 本体：地図 + プラン */
+.stage {
+  display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px;
+  max-width: 1280px; margin: 0 auto;
+  padding-block: 20px 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+
+.board { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.ribbon {
+  align-self: flex-start;
+  font-family: var(--font-display); font-size: clamp(16px, 2.2vw, 22px);
+  background: var(--red); color: #fff;
+  padding: 4px 18px; border: var(--line); border-radius: 6px;
+  transform: rotate(-1.5deg); box-shadow: 4px 4px 0 var(--ink);
+  text-wrap: balance;
+}
+
+.map-wrap {
+  position: relative; border: 4px solid var(--ink); border-radius: 14px; overflow: hidden;
+  background: var(--sky); box-shadow: 6px 6px 0 var(--ink);
+  aspect-ratio: 1000 / 940; max-width: 100%;
+}
+.map-wrap.shake { animation: shake 0.35s; }
+@keyframes shake {
+  20% { transform: translate(-6px, 3px); } 40% { transform: translate(5px, -4px); }
+  60% { transform: translate(-3px, 2px); } 80% { transform: translate(2px, -1px); }
+}
+/* キャラクターは地図のズームに関係なく、いつも左下に立つ */
+.chara-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.map { display: block; width: 100%; height: 100%; cursor: crosshair; touch-action: manipulation; }
+
+/* 発表 */
+.announce {
+  position: absolute; inset: auto 0 0 0; text-align: center; pointer-events: none;
+  padding: 48px 12px 6%;
+  background: linear-gradient(180deg, transparent, rgba(17, 17, 17, 0.55) 45%, rgba(17, 17, 17, 0.75));
+  animation: pop 0.5s cubic-bezier(.2, 1.6, .4, 1);
+}
+@keyframes pop { from { transform: scale(0.2) rotate(-8deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.announce-sub {
+  display: inline-block; margin: 0 0 4px; padding: 2px 14px;
+  background: var(--red); color: #fff; border: 2px solid var(--ink); font-weight: 900; font-size: clamp(14px, 2vw, 20px);
+  border-radius: 6px; transform: rotate(-2deg);
+}
+.announce-name {
+  margin: 0; font-family: var(--font-display); line-height: 1.05;
+  font-size: clamp(44px, 9vw, 104px); color: var(--yellow);
+  -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill;
+  text-shadow: 5px 6px 0 var(--ink);
+}
+.announce-name small { font-size: 0.5em; }
+.announce-ward {
+  display: inline-block; margin: 6px 0 0; padding: 0 12px; background: #fff; border: 2px solid var(--ink);
+  border-radius: 999px; font-weight: 900; font-size: 14px;
+}
+
+.controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.throw {
+  font-family: var(--font-display); font-size: clamp(20px, 2.6vw, 28px);
+  color: var(--ink); background: linear-gradient(180deg, var(--yellow-hi), var(--yellow));
+  border: var(--line); border-radius: 999px; padding: 10px 34px; cursor: pointer;
+  box-shadow: 0 6px 0 var(--ink); transition: transform 0.08s, box-shadow 0.08s;
+}
+.throw:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--ink); }
+.throw:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--ink); }
+.throw:disabled { opacity: 0.6; cursor: default; transform: none; }
+.throw.armed { background: var(--red); color: #fff; animation: pulse 0.6s infinite alternate; }
+@keyframes pulse { to { transform: scale(1.05); } }
+.reset {
+  font: 900 15px var(--font-body); color: var(--ink); background: #fff;
+  border: var(--line); border-radius: 10px; padding: 8px 16px; cursor: pointer; box-shadow: 0 4px 0 var(--ink);
+}
+.reset:hover { background: var(--paper); }
+.reset:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+.hint { margin: 0; font-weight: 700; color: var(--ink-soft); font-size: 14px; min-width: 0; }
+button:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+/* プラン */
+.plan {
+  background: #fff; border: var(--line); border-radius: 14px; box-shadow: 6px 6px 0 var(--yellow);
+  padding: 20px; min-width: 0; align-self: start;
+}
+.plan h2 { margin: 0 0 12px; font-family: var(--font-display); font-weight: 400; font-size: 22px; text-wrap: balance; }
+.howto { margin: 0; padding-left: 1.4em; display: grid; gap: 10px; }
+.howto b { background: linear-gradient(transparent 55%, var(--yellow-hi) 55%); }
+.note { margin: 16px 0 0; padding: 10px 12px; background: var(--paper); border-radius: 10px; font-size: 13px; }
+
+.plan-title span { color: var(--orange); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.step { border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; }
+.step-head {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  background: var(--ink); color: #fff; padding: 6px 12px;
+}
+.step-no { font-family: var(--font-display); color: var(--yellow); font-size: 18px; }
+.step-genre { font-weight: 900; }
+.step-meta { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--yellow-hi); font-variant-numeric: tabular-nums; }
+.step-body { padding: 10px 12px 12px; display: grid; gap: 8px; }
+.shop { display: grid; gap: 1px; }
+.shop-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.shop-name { font-weight: 900; color: var(--ink); text-decoration-color: var(--orange); text-underline-offset: 3px; min-width: 0; }
+.shop-map {
+  flex: none; font-size: 12px; font-weight: 900; color: var(--ink); text-decoration: none;
+  border: 2px solid var(--ink); border-radius: 999px; padding: 0 10px; background: #fff;
+}
+.shop-map:hover { background: var(--yellow-hi); }
+.shop-via {
+  justify-self: start; font-size: 11px; font-weight: 900; color: #fff; background: var(--sky-deep);
+  border-radius: 4px; padding: 0 6px;
+}
+.shop-note { font-size: 13px; color: var(--ink-soft); }
+.shop-meta { font-size: 12px; font-weight: 700; color: var(--orange); font-variant-numeric: tabular-nums; }
+.no-shop { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.search {
+  justify-self: start; display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 900; font-size: 13px; color: var(--ink); background: var(--yellow);
+  border: 2px solid var(--ink); border-radius: 999px; padding: 3px 14px; text-decoration: none;
+}
+.search:hover { background: var(--yellow-hi); }
+.total {
+  margin-top: 16px; display: flex; gap: 8px 20px; flex-wrap: wrap; align-items: baseline;
+  background: var(--yellow); border: 2px solid var(--ink); border-radius: 12px; padding: 10px 14px;
+  font-weight: 900; font-variant-numeric: tabular-nums;
+}
+.total b { font-family: var(--font-display); font-weight: 400; font-size: 22px; }
+.total small { font-weight: 700; font-size: 12px; width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .announce, .map-wrap.shake, .throw.armed { animation: none; }
+}

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ダーツの呑み</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&family=RocknRoll+One&display=swap">
+<link rel="stylesheet" href="style.css?v=12">
+<meta name="description" content="練馬・豊島・板橋・文京・新宿・渋谷の地図にダーツを投げて、今夜の呑み場所と3軒ハシゴプランを決めるゲーム。">
+<meta property="og:title" content="ダーツの呑み">
+<meta property="og:description" content="練馬・豊島・板橋・文京・新宿・渋谷の地図にダーツを投げて、今夜の呑み場所と3軒ハシゴプランを決めるゲーム。">
+<meta property="og:type" content="website">
+<style>[hidden]{display:none!important}</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-inner">
+    <h1 class="logo">ダーツの<span>呑み</span></h1>
+    <p class="area">練馬・豊島・板橋・文京・新宿・渋谷</p>
+    <div class="toggles">
+      <button id="bgm" class="sound" type="button" aria-pressed="true">BGM ON</button>
+      <button id="sound" class="sound" type="button" aria-pressed="true">効果音 ON</button>
+    </div>
+  </div>
+</header>
+
+<main class="stage">
+  <section class="board" aria-label="6区の地図">
+    <div class="ribbon" id="ribbon">今夜の呑み場所を、ダーツで決めろ！</div>
+    <div class="map-wrap" id="mapWrap">
+      <svg id="map" class="map" role="img" aria-label="6区の地図と駅"></svg>
+      <svg id="charaLayer" class="chara-layer" viewBox="0 0 1000 940" aria-hidden="true"></svg>
+      <div class="announce" id="announce" hidden>
+        <p class="announce-sub">今日の呑み場所は…</p>
+        <p class="announce-name"><span id="announceName"></span><small>駅！</small></p>
+        <p class="announce-ward" id="announceWard"></p>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="action" class="throw" type="button">ダーツを構える</button>
+      <button id="reset" class="reset" type="button">やり直す</button>
+      <p class="hint" id="hint">ボタンを押すと照準が動き出します</p>
+    </div>
+  </section>
+
+  <aside class="plan" id="plan">
+    <div class="plan-empty" id="planEmpty">
+      <h2>遊び方</h2>
+      <ol class="howto">
+        <li><b>ダーツを構える</b>を押すと、地図の上を照準が超高速で暴れ回ります</li>
+        <li><b>スペースキー</b>(スマホは地図をタップ)で投げる！狙っても無駄です</li>
+        <li>刺さった駅が今日の呑み場所。<b>1軒目→2軒目→3軒目</b>のハシゴプランも出ます</li>
+      </ol>
+      <p class="note">繁華街のど真ん中より、その1〜2駅となりの「狙い目駅」に刺さりやすくなっています。</p>
+    </div>
+    <div class="plan-body" id="planBody" hidden>
+      <h2 class="plan-title" aria-live="polite"><span id="planStation"></span>駅 ハシゴプラン</h2>
+      <ol class="steps" id="steps"></ol>
+      <div class="total" id="total" aria-live="polite"></div>
+    </div>
+  </aside>
+</main>
+
+<script type="module" src="src/main.js?v=12"></script>
+</body>
+</html>
